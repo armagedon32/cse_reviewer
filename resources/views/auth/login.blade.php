@@ -3,10 +3,6 @@
 @section('title', 'Login')
 
 @section('content')
-    @if (session('status'))
-        <div style="background: #d4edda; color: #155724; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ session('status') }}</div>
-    @endif
-
     <div class="topbar">
         <div>
             <div class="brand">CSE Reviewer</div>
