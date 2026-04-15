@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name', 'Laravel'))</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (file_exists(public_path('build/manifest.json')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
     <style>
         :root {
             color-scheme: light;
@@ -476,77 +478,14 @@
         @else
             <main class="card">
                 @if (session('status'))
-                    <div class="session-status" data-type="success" style="display: none;">{{ session('status') }}</div>
+                    <div style="background: #d4edda; color: #155724; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ session('status') }}</div>
                 @endif
                 @if ($errors->any())
-                    <div class="session-status" data-type="error" style="display: none;">{{ $errors->first() }}</div>
+                    <div style="background: #f8d7da; color: #721c24; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ $errors->first() }}</div>
                 @endif
                 @yield('content')
             </main>
         @endif
     </div>
-    <script>
-        // Handle form confirmations with data-confirm attribute
-        document.addEventListener('submit', async function(e) {
-            const form = e.target;
-            const confirmMessage = form.dataset.confirm;
-            
-            if (confirmMessage) {
-                e.preventDefault();
-                const result = await Swal.fire({
-                    title: 'Are you sure?',
-                    text: confirmMessage,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Yes, proceed!',
-                    cancelButtonText: 'Cancel',
-                    reverseButtons: true
-                });
-                
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            }
-        });
-
-        // Handle session status messages
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle session status messages
-            const statusElements = document.querySelectorAll('.session-status');
-            statusElements.forEach(el => {
-                const message = el.textContent.trim();
-                const type = el.dataset.type || 'success';
-                
-                if (message) {
-                    Swal.fire({
-                        title: type === 'error' ? 'Error!' : 'Success!',
-                        text: message,
-                        icon: type === 'error' ? 'error' : 'success',
-                        confirmButtonColor: type === 'error' ? '#dc3545' : '#0f766e',
-                        allowOutsideClick: false
-                    });
-                }
-            });
-
-            // Handle inline validation errors - show only the first error in a Sweet Alert
-            const errorElements = document.querySelectorAll('.error');
-            const hasSessionError = document.querySelector('.session-status[data-type="error"]');
-            
-            if (!hasSessionError && errorElements.length > 0) {
-                const firstError = errorElements[0].textContent.trim();
-                if (firstError) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: firstError,
-                        icon: 'error',
-                        confirmButtonColor: '#dc3545',
-                        allowOutsideClick: false
-                    });
-                }
-            }
-        });
-    </script>
 </body>
 </html>
