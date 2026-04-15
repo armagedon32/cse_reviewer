@@ -3,16 +3,6 @@
 @section('title', 'Login')
 
 @section('content')
-    @if ($errors->any())
-        <div class="notification notification-error">
-            <span class="notif-icon">✕</span>
-            <div class="notif-content">
-                <div class="notif-title">Error</div>
-                <div class="notif-text">{{ $errors->first() }}</div>
-            </div>
-        </div>
-    @endif
-
     <div class="topbar">
         <div>
             <div class="brand">CSE Reviewer</div>
