@@ -36,7 +36,11 @@
             </div>
             <div class="performance-card">
                 <div class="muted">Status</div>
-                <div class="status-chip">{{ $examSummary['status'] }}</div>
+                @if ($user->effectivePaymentStatus() === 'pending')
+                    <a href="{{ route('student.payment.edit') }}" class="status-chip" style="text-decoration: none; background: #fff3cd; color: #856404;">Pending Payment - Click to renew</a>
+                @else
+                    <div class="status-chip">{{ $examSummary['status'] }}</div>
+                @endif
             </div>
         </div>
 
