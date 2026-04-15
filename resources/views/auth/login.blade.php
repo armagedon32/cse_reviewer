@@ -4,7 +4,13 @@
 
 @section('content')
     @if ($errors->any())
-        <div style="background: #f8d7da; color: #721c24; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ $errors->first() }}</div>
+        <div class="notification notification-error">
+            <span class="notif-icon">✕</span>
+            <div class="notif-content">
+                <div class="notif-title">Error</div>
+                <div class="notif-text">{{ $errors->first() }}</div>
+            </div>
+        </div>
     @endif
 
     <div class="topbar">

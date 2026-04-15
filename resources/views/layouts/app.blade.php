@@ -23,6 +23,49 @@
         }
 
         * { box-sizing: border-box; }
+        .notification {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .notification-success {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-color: #6ee7b7;
+            color: #065f46;
+        }
+        .notification-success .notif-icon { color: #059669; }
+        .notification-error {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-color: #fca5a5;
+            color: #991b1b;
+        }
+        .notification-error .notif-icon { color: #dc2626; }
+        .notification-warning {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-color: #fcd34d;
+            color: #92400e;
+        }
+        .notification-warning .notif-icon { color: #d97706; }
+        .notification-info {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-color: #93c5fd;
+            color: #1e40af;
+        }
+        .notification-info .notif-icon { color: #2563eb; }
+        .notif-icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            width: 28px;
+            text-align: center;
+        }
+        .notif-content { flex: 1; }
+        .notif-title { font-weight: 700; margin-bottom: 4px; }
+        .notif-text { opacity: 0.9; font-size: 0.95rem; }
         body {
             margin: 0;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -463,10 +506,22 @@
                 <main class="content-shell">
                     <div class="content-card">
                         @if (session('status'))
-                            <div style="background: #d4edda; color: #155724; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ session('status') }}</div>
+                            <div class="notification notification-success">
+                                <span class="notif-icon">✓</span>
+                                <div class="notif-content">
+                                    <div class="notif-title">Success</div>
+                                    <div class="notif-text">{{ session('status') }}</div>
+                                </div>
+                            </div>
                         @endif
                         @if ($errors->any())
-                            <div style="background: #f8d7da; color: #721c24; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ $errors->first() }}</div>
+                            <div class="notification notification-error">
+                                <span class="notif-icon">✕</span>
+                                <div class="notif-content">
+                                    <div class="notif-title">Error</div>
+                                    <div class="notif-text">{{ $errors->first() }}</div>
+                                </div>
+                            </div>
                         @endif
                         @yield('content')
                     </div>
@@ -475,10 +530,22 @@
         @else
             <main class="card">
                 @if (session('status'))
-                    <div style="background: #d4edda; color: #155724; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ session('status') }}</div>
+                    <div class="notification notification-success">
+                        <span class="notif-icon">✓</span>
+                        <div class="notif-content">
+                            <div class="notif-title">Success</div>
+                            <div class="notif-text">{{ session('status') }}</div>
+                        </div>
+                    </div>
                 @endif
                 @if ($errors->any())
-                    <div style="background: #f8d7da; color: #721c24; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ $errors->first() }}</div>
+                    <div class="notification notification-error">
+                        <span class="notif-icon">✕</span>
+                        <div class="notif-content">
+                            <div class="notif-title">Error</div>
+                            <div class="notif-text">{{ $errors->first() }}</div>
+                        </div>
+                    </div>
                 @endif
                 @yield('content')
             </main>
