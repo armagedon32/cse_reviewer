@@ -3,6 +3,10 @@
 @section('title', 'Register')
 
 @section('content')
+    @if ($errors->any())
+        <div style="background: #f8d7da; color: #721c24; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ $errors->first() }}</div>
+    @endif
+
     <div class="topbar">
         <div>
             <div class="brand">Create account</div>

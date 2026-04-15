@@ -463,10 +463,10 @@
                 <main class="content-shell">
                     <div class="content-card">
                         @if (session('status'))
-                            <div class="session-status" data-type="success" style="display: none;">{{ session('status') }}</div>
+                            <div style="background: #d4edda; color: #155724; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ session('status') }}</div>
                         @endif
                         @if ($errors->any())
-                            <div class="session-status" data-type="error" style="display: none;">{{ $errors->first() }}</div>
+                            <div style="background: #f8d7da; color: #721c24; padding: 12px; border-radius: 8px; margin-bottom: 16px;">{{ $errors->first() }}</div>
                         @endif
                         @yield('content')
                     </div>
