@@ -123,4 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'gcash_number' => env('GCASH_NUMBER', '09158907953'),
+    'gcash_name' => env('GCASH_NAME', 'CSE Reviewer'),
+
 ];

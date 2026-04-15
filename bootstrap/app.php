@@ -11,8 +11,41 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'role' => \App\Http\Middleware\EnsureUserRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (Throwable $e, \Illuminate\Http\Request $request) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'error' => $e->getMessage(),
+                ], $e instanceof \Symfony\Component\HttpKernel\Exception\HttpException ? $e->getStatusCode() : 500);
+            }
+
+            if (view()->exists('errors.' . ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException ? $e->getStatusCode() : 500))) {
+                return response()->view('errors.' . ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException ? $e->getStatusCode() : 500), ['exception' => $e], $e instanceof \Symfony\Component\HttpKernel\Exception\HttpException ? $e->getStatusCode() : 500);
+            }
+
+            $message = $e->getMessage() ?: 'An error occurred';
+            $statusCode = $e instanceof \Symfony\Component\HttpKernel\Exception\HttpException ? $e->getStatusCode() : 500;
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['error' => $message], $statusCode);
+            }
+
+            return response("<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: " . json_encode($message) . ",
+                        icon: 'error',
+                        confirmButtonColor: '#dc3545',
+                        allowOutsideClick: false
+                    }).then(function() {
+                        window.history.back();
+                    });
+                });
+            </script>", $statusCode);
+        });
     })->create();
