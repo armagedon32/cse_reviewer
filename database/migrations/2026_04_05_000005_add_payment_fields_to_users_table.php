@@ -12,13 +12,31 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('payment_status')->default('approved')->after('role');
-            $table->string('gcash_reference')->nullable()->after('payment_status');
-            $table->string('gcash_receipt_path')->nullable()->after('gcash_reference');
-            $table->timestamp('payment_submitted_at')->nullable()->after('gcash_receipt_path');
-            $table->timestamp('payment_approved_at')->nullable()->after('payment_submitted_at');
-        });
+        if (! Schema::hasColumn('users', 'payment_status')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('payment_status')->default('approved')->after('role');
+            });
+        }
+        if (! Schema::hasColumn('users', 'gcash_reference')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('gcash_reference')->nullable()->after('payment_status');
+            });
+        }
+        if (! Schema::hasColumn('users', 'gcash_receipt_path')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('gcash_receipt_path')->nullable()->after('gcash_reference');
+            });
+        }
+        if (! Schema::hasColumn('users', 'payment_submitted_at')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->timestamp('payment_submitted_at')->nullable()->after('gcash_receipt_path');
+            });
+        }
+        if (! Schema::hasColumn('users', 'payment_approved_at')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->timestamp('payment_approved_at')->nullable()->after('payment_submitted_at');
+            });
+        }
 
         DB::table('users')
             ->where('role', 'student')
