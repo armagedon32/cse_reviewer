@@ -7,7 +7,11 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta name="robots" content="noindex, nofollow">
     <title>@yield('title', config('app.name', 'Laravel'))</title>
+    @php
+        $cacheVersion = '2026.04.15';
+    @endphp
     <style>
         :root {
             color-scheme: light;
