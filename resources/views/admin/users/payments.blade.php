@@ -53,6 +53,11 @@
                             @method('PATCH')
                             <button class="btn secondary" type="submit">Reject</button>
                         </form>
+                        <form method="POST" action="{{ route('admin.users.destroy', $student) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn secondary" type="submit" style="background: #dc3545; color: white; border-color: #dc3545;" onclick="return confirm('Delete this user completely?')">Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>
