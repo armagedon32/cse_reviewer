@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Question;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -151,6 +150,16 @@ class QuestionController extends Controller
         return redirect()
             ->route('admin.questions.index')
             ->with('status', 'Question deleted successfully.');
+    }
+
+    public function destroyAll(): RedirectResponse
+    {
+        $count = Question::query()->count();
+        Question::query()->delete();
+
+        return redirect()
+            ->route('admin.questions.index')
+            ->with('status', "{$count} question(s) deleted successfully.");
     }
 
     public function destroyDuplicates(): RedirectResponse
