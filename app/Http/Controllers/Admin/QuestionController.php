@@ -65,10 +65,17 @@ class QuestionController extends Controller
 
     public function downloadSample(): BinaryFileResponse
     {
-        return response()->download(
-            storage_path('app/private/sample-cse-questions.csv'),
-            'sample-cse-questions.csv',
-        );
+        $path = storage_path('app/private/sample-cse-questions.csv');
+
+        if (! file_exists($path)) {
+            abort(404, "File not found at: $path");
+        }
+
+        if (! is_readable($path)) {
+            abort(500, "File not readable at: $path");
+        }
+
+        return response()->download($path, 'sample-cse-questions.csv');
     }
 
     public function exportAll(): StreamedResponse
