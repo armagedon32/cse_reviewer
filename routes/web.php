@@ -8,20 +8,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Student\PaymentController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test-download', function () {
-    $path = storage_path('app/private/sample-cse-questions.csv');
-    if (! file_exists($path)) {
-        return response('File not found: '.$path, 404);
-    }
-    $content = file_get_contents($path);
-
-    return response($content, 200, [
-        'Content-Type' => 'text/csv',
-        'Content-Disposition' => 'attachment; filename="sample.csv"',
-        'Content-Length' => strlen($content),
-    ]);
-});
-
 Route::get('/', function () {
     return auth()->check()
         ? redirect()->route('dashboard')
