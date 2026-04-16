@@ -1,11 +1,8 @@
 {
   "$schema": "https://railway.app/schema.json",
   "build": {
-    "apt": {
-      "packages": ["libmariadb-dev", "libpq-dev", "libsqlite3-dev"]
+    "nixpacks": {
+      "pkgs": ["mysql5", "postgresql"]
     }
-  },
-  "php": {
-    "extensions": ["pdo_mysql", "pdo_pgsql", "pdo_sqlite"]
   }
 }
