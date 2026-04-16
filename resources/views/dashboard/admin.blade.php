@@ -44,7 +44,8 @@
             <p class="muted">Provision new administrators through the protected admin-only path. Public registration remains student-only.</p>
             <div class="section-actions" style="margin-top: 12px;">
                 <a class="btn" href="{{ route('admin.users.create') }}">Create admin account</a>
-                <a class="btn" href="{{ route('admin.users.index') }}" style="margin-left: 8px;">View all users</a>
+                <a class="btn secondary" href="{{ route('admin.users.admins') }}">Registered admins</a>
+                <a class="btn secondary" href="{{ route('admin.users.index') }}">View all users</a>
             </div>
         </div>
 
