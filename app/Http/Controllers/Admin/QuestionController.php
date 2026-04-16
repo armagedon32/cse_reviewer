@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class QuestionController extends Controller
@@ -63,21 +62,24 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function downloadSample(): BinaryFileResponse
+    public function downloadSample()
     {
         $path = storage_path('app/private/sample-cse-questions.csv');
 
         if (! file_exists($path)) {
-            abort(404, "File not found at: $path");
+            return response('File not found: '.$path, 404);
         }
 
         if (! is_readable($path)) {
-            abort(500, "File not readable at: $path");
+            return response('File not readable: '.$path, 500);
         }
 
-        return response()->file($path, [
+        $content = file_get_contents($path);
+
+        return response($content, 200, [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="sample-cse-questions.csv"',
+            'Content-Length' => strlen($content),
         ]);
     }
 
