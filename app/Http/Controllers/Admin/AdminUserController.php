@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -100,7 +100,7 @@ class AdminUserController extends Controller
         $users = User::query()
             ->when($search, fn ($query) => $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             }))
             ->orderBy('created_at', 'desc')
             ->get();
@@ -108,6 +108,16 @@ class AdminUserController extends Controller
         return view('admin.users.index', [
             'users' => $users,
             'search' => $search,
+        ]);
+    }
+
+    public function admins(): View
+    {
+        return view('admin.users.admins', [
+            'admins' => User::query()
+                ->where('role', 'admin')
+                ->orderBy('created_at', 'desc')
+                ->get(),
         ]);
     }
 

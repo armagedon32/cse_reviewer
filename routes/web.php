@@ -56,6 +56,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function (): v
     Route::post('/users/{user}/reset-password', [AdminUserController::class, 'resetPassword'])->name('admin.users.reset-password');
     Route::get('/users/create-admin', [AdminUserController::class, 'create'])->name('admin.users.create');
     Route::post('/users/create-admin', [AdminUserController::class, 'store'])->name('admin.users.store');
+    Route::get('/users/admins', [AdminUserController::class, 'admins'])->name('admin.users.admins');
     Route::get('/payments', [AdminUserController::class, 'payments'])->name('admin.payments.index');
     Route::patch('/payments/{user}/approve', [AdminUserController::class, 'approvePayment'])->name('admin.payments.approve');
     Route::patch('/payments/{user}/reject', [AdminUserController::class, 'rejectPayment'])->name('admin.payments.reject');
