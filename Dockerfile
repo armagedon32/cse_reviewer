@@ -1,5 +1,8 @@
 # Railway Deployment - Updated 2026-04-16
+# Build timestamp: 2026-04-16-13-00
 FROM php:8.3-fpm
+
+ARG CACHE_BUST=1744800000
 
 RUN apt-get update && apt-get install -y \
     libpng-dev \
