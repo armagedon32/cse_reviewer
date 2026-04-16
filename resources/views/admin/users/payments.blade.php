@@ -33,18 +33,26 @@
 
                 <div class="section-actions">
                     @if ($student->gcash_receipt_path)
-                        <a class="btn secondary" href="{{ route('admin.payments.receipt', $student) }}">Download receipt</a>
+                        @if ($student->effectivePaymentStatus() === 'expired')
+                            <span class="muted" style="padding: 8px 14px; border: 1px dashed #999; border-radius: 6px; filter: grayscale(100%); opacity: 0.5;" title="Receipt hidden - subscription expired">Receipt (expired)</span>
+                        @else
+                            <a class="btn secondary" href="{{ route('admin.payments.receipt', $student) }}">Download receipt</a>
+                        @endif
                     @else
                         <span class="muted">No receipt uploaded</span>
                     @endif
 
                     <div class="actions">
                         @if ($student->gcash_receipt_path)
-                            <form method="POST" action="{{ route('admin.payments.approve', $student) }}">
-                                @csrf
-                                @method('PATCH')
-                                <button class="btn" type="submit">Approve</button>
-                            </form>
+                            @if ($student->effectivePaymentStatus() === 'expired')
+                                <button class="btn" type="button" disabled style="opacity: 0.5; cursor: not-allowed;" title="Cannot approve - awaiting new payment">Awaiting renewal</button>
+                            @else
+                                <form method="POST" action="{{ route('admin.payments.approve', $student) }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="btn" type="submit">Approve</button>
+                                </form>
+                            @endif
                         @else
                             <button class="btn" type="button" disabled style="opacity: 0.5; cursor: not-allowed;">Approve</button>
                         @endif
