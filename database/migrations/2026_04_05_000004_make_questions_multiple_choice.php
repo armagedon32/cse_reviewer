@@ -39,11 +39,11 @@ return new class extends Migration
         }
 
         DB::table('questions')->update([
-            'option_a' => DB::raw('COALESCE(option_a, "Option A")'),
-            'option_b' => DB::raw('COALESCE(option_b, "Option B")'),
-            'option_c' => DB::raw('COALESCE(option_c, "Option C")'),
-            'option_d' => DB::raw('COALESCE(option_d, "Option D")'),
-            'correct_option' => DB::raw('COALESCE(correct_option, "A")'),
+            'option_a' => DB::raw("COALESCE(option_a, 'Option A')"),
+            'option_b' => DB::raw("COALESCE(option_b, 'Option B')"),
+            'option_c' => DB::raw("COALESCE(option_c, 'Option C')"),
+            'option_d' => DB::raw("COALESCE(option_d, 'Option D')"),
+            'correct_option' => DB::raw("COALESCE(correct_option, 'A')"),
         ]);
     }
 
