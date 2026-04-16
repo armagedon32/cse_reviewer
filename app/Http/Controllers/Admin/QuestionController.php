@@ -75,7 +75,10 @@ class QuestionController extends Controller
             abort(500, "File not readable at: $path");
         }
 
-        return response()->download($path, 'sample-cse-questions.csv');
+        return response()->file($path, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="sample-cse-questions.csv"',
+        ]);
     }
 
     public function exportAll(): StreamedResponse
