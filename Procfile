@@ -1,1 +1,0 @@
-web: mkdir -p storage/app/public storage/framework/{sessions,views,cache} && php artisan migrate --force && php artisan db:seed --force && php artisan storage:link --force && php artisan serve --host=0.0.0.0 --port=$PORT
