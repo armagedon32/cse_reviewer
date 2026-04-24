@@ -1,8 +1,10 @@
 {
   "build": {
-    "builder": "DOCKERFILE"
+    "builder": "NIXPACKS",
+    "buildCommand": "cd client && npm install && npm run build && cd ../server && npm install"
   },
   "deploy": {
+    "startCommand": "node server/index.js",
     "healthcheckPath": "/health"
   }
 }
