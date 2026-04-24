@@ -1,14 +1,17 @@
 FROM node:20-alpine
 
-# Install client dependencies and build
+WORKDIR /app
+
+# Copy entire repository
+COPY . .
+
+# Build client
 WORKDIR /app/client
-COPY client/ ./
 RUN npm install
 RUN npm run build
 
-# Install server dependencies
+# Setup server
 WORKDIR /app/server
-COPY server/ ./
 RUN npm install
 
 WORKDIR /app
