@@ -1,6 +1,0 @@
-{
-  "deploy": {
-    "startCommand": "cd server && npm start",
-    "healthcheckPath": "/health"
-  }
-}
