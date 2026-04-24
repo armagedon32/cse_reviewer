@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -13,7 +12,17 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(cors());
+// CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use(express.json());
 
 // Serve static files from React build in production
@@ -36,13 +45,16 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 
-// Start server first, then connect to MongoDB
 const startServer = () => {
-  app.listen(PORT, async () => {
-    console.log(`Server running on port ${PORT}`);
-    // Try to connect to MongoDB after server starts
-    await connectDB();
-  });
+  try {
+    app.listen(PORT, '0.0.0.0', async () => {
+      console.log(`Server running on port ${PORT}`);
+      await connectDB();
+    });
+  } catch (err) {
+    console.error('Failed to start server:', err.message);
+    process.exit(1);
+  }
 };
 
 startServer();
